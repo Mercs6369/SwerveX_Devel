@@ -21,17 +21,17 @@ import frc.robot.common.drivers.Mk2SwerveModuleBuilder;
 import com.kauailabs.navx.frc.AHRS;
 
 public class DrivetrainSubsystem extends Subsystem {
-    private static final double TRACKWIDTH = 23.25;
-    private static final double WHEELBASE = 23.25;
+    public static final double TRACKWIDTH = 23.25;
+    public static final double WHEELBASE = 23.25;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(314.8);
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(94.8);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(346.4);
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(20.2);
+    public static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(180);
+    public static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(94.8);
+    public static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(346.4);
+    public static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(20.2);
 
-    private static DrivetrainSubsystem instance;
+    public static DrivetrainSubsystem instance;
 
-    private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
+    public final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
             new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
             .angleEncoder(new AnalogInput(RobotMap.DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER), FRONT_LEFT_ANGLE_OFFSET)
             .angleMotor(new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -39,7 +39,7 @@ public class DrivetrainSubsystem extends Subsystem {
             .driveMotor(new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
                     Mk2SwerveModuleBuilder.MotorType.NEO)
             .build();
-    private final SwerveModule frontRightModule = new Mk2SwerveModuleBuilder(
+            public final SwerveModule frontRightModule = new Mk2SwerveModuleBuilder(
             new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
             .angleEncoder(new AnalogInput(RobotMap.DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER), FRONT_RIGHT_ANGLE_OFFSET)
             .angleMotor(new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -47,7 +47,7 @@ public class DrivetrainSubsystem extends Subsystem {
             .driveMotor(new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
                     Mk2SwerveModuleBuilder.MotorType.NEO)
             .build();
-    private final SwerveModule backLeftModule = new Mk2SwerveModuleBuilder(
+    public final SwerveModule backLeftModule = new Mk2SwerveModuleBuilder(
             new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0))
             .angleEncoder(new AnalogInput(RobotMap.DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER), BACK_LEFT_ANGLE_OFFSET)
             .angleMotor(new CANSparkMax(RobotMap.DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -55,7 +55,7 @@ public class DrivetrainSubsystem extends Subsystem {
             .driveMotor(new CANSparkMax(RobotMap.DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
                     Mk2SwerveModuleBuilder.MotorType.NEO)
             .build();
-    private final SwerveModule backRightModule = new Mk2SwerveModuleBuilder(
+    public final SwerveModule backRightModule = new Mk2SwerveModuleBuilder(
             new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
             .angleEncoder(new AnalogInput(RobotMap.DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER), BACK_RIGHT_ANGLE_OFFSET)
             .angleMotor(new CANSparkMax(RobotMap.DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -64,14 +64,14 @@ public class DrivetrainSubsystem extends Subsystem {
                     Mk2SwerveModuleBuilder.MotorType.NEO)
             .build();
 
-    private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+    public final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
             new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
             new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
             new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
             new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)
     );
 
-    private final Gyro gyroscope = new AHRS(SPI.Port.kMXP);
+    public final Gyro gyroscope = new AHRS(SPI.Port.kMXP);
 
     public DrivetrainSubsystem() {
         gyroscope.calibrate();
@@ -81,6 +81,7 @@ public class DrivetrainSubsystem extends Subsystem {
         frontRightModule.setName("Front Right");
         backLeftModule.setName("Back Left");
         backRightModule.setName("Back Right");
+
     }
 
     public static DrivetrainSubsystem getInstance() {
@@ -102,7 +103,7 @@ public class DrivetrainSubsystem extends Subsystem {
         SmartDashboard.putNumber("Front Right Module Angle", Math.toDegrees(frontRightModule.getCurrentAngle()));
         SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
         SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
-
+        SmartDashboard.putNumber("position", frontLeftModule.getCurrentDistance());
         SmartDashboard.putNumber("Gyroscope Angle", gyroscope.getAngle());
 
         frontLeftModule.updateState(TimedRobot.kDefaultPeriod);
