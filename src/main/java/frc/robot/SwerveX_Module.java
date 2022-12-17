@@ -1,7 +1,10 @@
 package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.CANCoderFaults;
+import com.ctre.phoenix.sensors.CANCoderStickyFaults;
+import com.ctre.phoenix.sensors.MagnetFieldStrength;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.geometry.Rotation2d;
 
@@ -11,10 +14,8 @@ public class SwerveX_Module {
 
     private final WPI_TalonFX m_driveMotor;
     private final WPI_TalonFX m_steerMotor;
-
-    private final DigitalInput m_angleEncoderData;
-    private final DutyCycleEncoder m_angleEncoder;
-
+    private final WPI_CANCoder m_angleEncoder;
+    
     /**
    * Constructs a SwerveModule with a drive motor, turning motor, angle encoder.
    *
@@ -29,8 +30,7 @@ public class SwerveX_Module {
 
     m_driveMotor = new WPI_TalonFX(driveMotorChannel);
     m_steerMotor = new WPI_TalonFX(steerMotorChannel);
-    m_angleEncoderData = new DigitalInput(angleEncoderChannel);
-    m_angleEncoder = new DutyCycleEncoder(m_angleEncoderData);
+    m_angleEncoder = new WPI_CANCoder(0, "rio"); // Rename "rio" to match the CANivore device name if using a CANivore
     }
 
    /**
@@ -40,7 +40,7 @@ public class SwerveX_Module {
    */
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-            m_driveMotor.getSelectedSensorVelocity(), new Rotation2d(m_angleEncoder.get()));
+            m_driveMotor.getSelectedSensorVelocity(), new Rotation2d(m_angleEncoder.getPosition()));
            //m_driveEncoder.getRate(), new Rotation2d(m_turningEncoder.getDistance()));
     }
 
