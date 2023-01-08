@@ -25,8 +25,8 @@ public class Drivetrain extends Subsystem {
     public SwerveX_Module[] mSwerveMods;
     public PigeonIMU gyro;
     final int pigeonID = 1;
-    public static final double trackWidth = 23.25; //need to update for us
-    public static final double wheelBase = 23.25; ////need to update for us
+    public static final double trackWidth = 29.75; //need to update for us
+    public static final double wheelBase = 29.75; ////need to update for us
     
     public final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
                 new Translation2d(wheelBase / 2.0, trackWidth / 2.0), // frontRightModule or frontLeftModule
